@@ -18,6 +18,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="false" />
+
+        <TextView
+            android:id="@+id/question_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="8sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Kysymys"
+            android:textSize="24sp"
+            android:focusable="true"
+            android:accessibilityLiveRegion="polite" />
+
+        <EditText
+            android:id="@+id/answerEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write your answer here" />
+
         <Button
             android:id="@+id/previousButton"
             android:layout_width="wrap_content"
@@ -31,8 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Next" />
-
-
 
     </LinearLayout>
 </ScrollView>

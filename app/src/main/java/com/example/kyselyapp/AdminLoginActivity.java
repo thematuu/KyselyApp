@@ -39,10 +39,11 @@ public class AdminLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(AdminLoginActivity.this, AdminActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(AdminLoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
-                finish();
+
             }
         });
     }

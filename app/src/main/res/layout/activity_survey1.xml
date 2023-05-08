@@ -11,7 +11,89 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="false" />
+        <TextView
+            android:id="@+id/question_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="8sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Kysymys"
+            android:textSize="24sp"
+            android:focusable="true"
+            android:accessibilityLiveRegion="polite" />
 
+
+        <Button
+            android:id="@+id/tts_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="44px"
+            android:minWidth="44px"
+            android:gravity="start"
+            android:text="🔊"
+            android:textSize="24sp"
+            android:focusable="true"
+            android:contentDescription="Teksti puheeksi painike kysymykselle" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8sp"
+            android:paddingRight="8sp">
+
+            <RadioButton
+                android:id="@+id/option_1"
+                android:text="☹️"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Erittäin surullinen naama"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/option_2"
+                android:text="😔"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Surullinen naama"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/option_3"
+                android:text="😐"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Neutraali naama"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/option_4"
+                android:text="😊"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Iloinen naama"
+                android:focusable="true" />
+
+            <RadioButton
+                android:id="@+id/option_5"
+                android:text="😁"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Erittäin Iloinen naama"
+                android:focusable="true" />
+
+        </RadioGroup>
         <LinearLayout
             android:id="@+id/questionContainer"
             android:layout_width="match_parent"
@@ -25,7 +107,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Previous" />
-
         <Button
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
@@ -35,3 +116,5 @@
 
     </LinearLayout>
 </ScrollView>
+
+

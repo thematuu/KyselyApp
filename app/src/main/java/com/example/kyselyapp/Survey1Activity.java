@@ -3,10 +3,9 @@ package com.example.kyselyapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,47 +18,39 @@ import java.util.Locale;
 
 public class Survey1Activity extends AppCompatActivity {
 
-    private LinearLayout questionContainer;
-    private DatabaseHelper databaseHelper;
+    private TextView questionTextView;
+    private RadioGroup radioGroup;
+    private Button previousButton;
+    private Button nextButton;
+    private Button ttsButton;
+    private ProgressBar progressBar;
     private List<Question> questions;
     private int currentQuestionIndex = 0;
-    private int[] emojiCodes = {0x1F641, 0x1F614, 0x1F610, 0x1F60A, 0x1F601};
     private TextToSpeech tts;
-
-    private void showCurrentQuestion() {
-        Button nextButton = findViewById(R.id.nextButton);
-        Button previousButton = findViewById(R.id.previousButton);
-
-        for (int i = 0; i < questionContainer.getChildCount(); i++) {
-            if (i == currentQuestionIndex) {
-                questionContainer.getChildAt(i).setVisibility(View.VISIBLE);
-                if (i == questions.size() - 1) {
-                    nextButton.setText("Submit");
-                } else {
-                    nextButton.setText("Next");
-                }
-                if (i == 0) {
-                    previousButton.setVisibility(View.GONE);
-                } else {
-                    previousButton.setVisibility(View.VISIBLE);
-                }
-            } else {
-                questionContainer.getChildAt(i).setVisibility(View.GONE);
-            }
-        }
-    }
+    private String[] answers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey1);
 
-        questionContainer = findViewById(R.id.questionContainer);
-        Button previousButton = findViewById(R.id.previousButton);
-        Button nextButton = findViewById(R.id.nextButton);
+        questionTextView = findViewById(R.id.question_text_view);
+        radioGroup = findViewById(R.id.radio_group);
+        previousButton = findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        ttsButton = findViewById(R.id.tts_button);
+        progressBar = findViewById(R.id.progress_bar);
 
-        databaseHelper = new DatabaseHelper(this, DatabaseHelper.TABLE_SURVEY1_QUESTIONS);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this, DatabaseHelper.TABLE_SURVEY1_QUESTIONS);
         questions = databaseHelper.getAllQuestions();
+        if (questions != null) {
+            answers = new String[questions.size()];
+            progressBar.setMax(questions.size() - 1);
+        } else {
+            Toast.makeText(this, "Error loading questions", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
 
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -67,49 +58,22 @@ public class Survey1Activity extends AppCompatActivity {
                 if (status == TextToSpeech.SUCCESS) {
                     int result = tts.setLanguage(Locale.getDefault());
                     if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Log.e("TTS", "Language not supported");
+                        // Language not supported
                     } else {
-                        // TTS is ready to use.
+                        // TTS is ready to use
                     }
                 } else {
-                    Log.e("TTS", "Initialization failed");
+                    // Initialization failed
                 }
             }
         }, "com.google.android.tts");
 
-
-        for (Question question : questions) {
-            LinearLayout questionLayout = new LinearLayout(this);
-            questionLayout.setOrientation(LinearLayout.VERTICAL);
-
-            TextView questionTextView = new TextView(this);
-            questionTextView.setText(question.getText());
-            questionTextView.setTextSize(18);
-
-            RadioGroup emojiRadioGroup = new RadioGroup(this);
-            emojiRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
-
-            for (int i = 0; i < emojiCodes.length; i++) {
-                RadioButton emojiRadioButton = new RadioButton(this);
-                emojiRadioButton.setText(String.valueOf(Character.toChars(emojiCodes[i])));
-                emojiRadioGroup.addView(emojiRadioButton);
+        ttsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tts.speak(questionTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
             }
-
-            Button speakButton = new Button(this);
-            speakButton.setText("Speak");
-            speakButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tts.speak(question.getText(), TextToSpeech.QUEUE_FLUSH, null, null);
-                }
-            });
-
-            emojiRadioGroup.setId(question.getId());
-            questionLayout.addView(questionTextView);
-            questionLayout.addView(emojiRadioGroup);
-            questionLayout.addView(speakButton);
-            questionContainer.addView(questionLayout);
-        }    showCurrentQuestion();
+        });
 
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,33 +88,72 @@ public class Survey1Activity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RadioGroup currentRadioGroup = (RadioGroup) questionContainer.getChildAt(currentQuestionIndex).findViewById(questions.get(currentQuestionIndex).getId());
-                if (currentRadioGroup.getCheckedRadioButtonId() == -1) {
-                    Toast.makeText(Survey1Activity.this, "Please select answer before proceeding.", Toast.LENGTH_SHORT).show();
+                int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                if (checkedRadioButtonId == -1) {
+                    // No answer selected
                 } else {
+                    // Save the answer for the current question to the answers array
+                    RadioButton checkedRadioButton = findViewById(checkedRadioButtonId);
+                    String answer = checkedRadioButton.getText().toString();
+                    answers[currentQuestionIndex] = answer;
+
                     if (currentQuestionIndex < questions.size() - 1) {
                         currentQuestionIndex++;
                         showCurrentQuestion();
                     } else {
-                        // Submit answers when on the last question
-                        for (int i = 0; i < questionContainer.getChildCount(); i++) {
-                            RadioGroup emojiRadioGroup = questionContainer.getChildAt(i).findViewById(questions.get(i).getId());
-                            int questionId = emojiRadioGroup.getId(); // Fetch the correct question ID
-                            int checkedRadioButtonId = emojiRadioGroup.getCheckedRadioButtonId();
-                            if (checkedRadioButtonId != -1) {
-                                RadioButton checkedRadioButton = emojiRadioGroup.findViewById(checkedRadioButtonId);
-                                String answer = checkedRadioButton.getText().toString();
-                                databaseHelper.saveAnswer(questionId, answer, DatabaseHelper.TABLE_SURVEY1_ANSWERS);
-                            }
-                            Intent intent = new Intent(Survey1Activity.this, ThankYouActivity.class);
-                            startActivity(intent);
-                            finish();
+                        // Save all answers to the database and proceed to ThankYouActivity
+                        for (int i = 0; i < questions.size(); i++) {
+                            databaseHelper.saveAnswer(questions.get(i).getId(), answers[i], DatabaseHelper.TABLE_SURVEY1_ANSWERS);
                         }
+                        Intent intent = new Intent(Survey1Activity.this, ThankYouActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
         });
+
+
+        showCurrentQuestion();
     }
+
+    private void showCurrentQuestion() {
+        Question question = questions.get(currentQuestionIndex);
+        questionTextView.setText(question.getText());
+
+        // Clear the checked status of all radio buttons
+        radioGroup.clearCheck();
+
+        // Update the checked status of the radio button if the answer was previously selected
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
+            if (radioButton.getText().toString().equals(answers[currentQuestionIndex])) {
+                radioButton.setChecked(true);
+                break;
+            }
+        }
+
+        if (currentQuestionIndex == 0) {
+            previousButton.setVisibility(View.GONE);
+        } else {
+            previousButton.setVisibility(View.VISIBLE);
+        }
+
+        if (currentQuestionIndex == questions.size() - 1) {
+            nextButton.setText("Submit");
+        } else {
+            nextButton.setText("Next");
+        }
+
+        progressBar.setProgress(currentQuestionIndex);
+
+
+
+
+    }
+
+
+
 
     @Override
     protected void onDestroy() {
