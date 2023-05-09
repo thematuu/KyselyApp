@@ -3,6 +3,7 @@ package com.example.kyselyapp;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ public class ShowAnswersForQuestionActivity extends AppCompatActivity {
 
     private ListView answersListView;
     private DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,14 @@ public class ShowAnswersForQuestionActivity extends AppCompatActivity {
 
         List<String> answers = databaseHelper.getAnswersForQuestion(questionId, answersTableName);
 
+        TextView questionTextView = findViewById(R.id.questionTextView);
+        String questionText = databaseHelper.getQuestionText(questionId, "survey2_questions");
+        questionTextView.setText(questionText);
+
         answersListView = findViewById(R.id.answersListView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, answers);
         answersListView.setAdapter(adapter);
     }
+
+
 }

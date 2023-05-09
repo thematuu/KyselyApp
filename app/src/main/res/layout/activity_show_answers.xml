@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:context=".ShowAnswersActivity">
 
     <LinearLayout
-        android:id="@+id/show_answers_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
+
+        <Switch
+            android:id="@+id/chart_type_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bar chart" />
+
+        <Switch
+            android:id="@+id/absolute_value_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show absolute values" />
+
+
 
     </LinearLayout>
 
-</ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/show_answers_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

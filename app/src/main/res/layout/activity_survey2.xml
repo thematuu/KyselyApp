@@ -12,52 +12,76 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
-            android:id="@+id/questionContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
         <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:indeterminate="false" />
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/custom_progressbar"
+        android:minHeight="6dp"
+        android:maxHeight="6dp" />
 
         <TextView
             android:id="@+id/question_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="8sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:text="Kysymys"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:focusable="true"
             android:accessibilityLiveRegion="polite" />
 
-        <EditText
-            android:id="@+id/answerEditText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/answerTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Write your answer here" />
+            android:hint="Write your answer here"
+            app:boxBackgroundColor="@color/white"
+            app:hintTextColor="#DE3789"
+            app:boxStrokeColor="#DE3789">
 
-        <Button
-            android:id="@+id/previousButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Previous" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/answerEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="124dp"
+                android:textSize="16dp"
+                android:gravity="top" />
 
-        <Button
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Next" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/previousButton"
+                android:layout_marginRight="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Previous"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#DE3789"/>
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Next"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#DE3789"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

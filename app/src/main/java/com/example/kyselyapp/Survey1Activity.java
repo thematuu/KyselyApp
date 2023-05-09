@@ -31,6 +31,7 @@ public class Survey1Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey1);
 
@@ -91,6 +92,7 @@ public class Survey1Activity extends AppCompatActivity {
                 int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
                 if (checkedRadioButtonId == -1) {
                     // No answer selected
+                    Toast.makeText(Survey1Activity.this, "Answer cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     // Save the answer for the current question to the answers array
                     RadioButton checkedRadioButton = findViewById(checkedRadioButtonId);

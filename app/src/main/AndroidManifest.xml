@@ -43,6 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".Survey1Activity"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

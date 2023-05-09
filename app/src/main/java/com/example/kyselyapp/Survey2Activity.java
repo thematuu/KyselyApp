@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Survey2Activity extends AppCompatActivity {
 
-    private LinearLayout questionContainer;
     private List<Question> questions;
     private DatabaseHelper databaseHelper;
     private EditText answerEditText;
@@ -29,6 +28,7 @@ public class Survey2Activity extends AppCompatActivity {
     private List<String> answers;
 
     private void showCurrentQuestion() {
+        getSupportActionBar().hide();
         questionTextView.setText(questions.get(currentQuestionIndex).getText());
         progressBar.setProgress((int) (((float) currentQuestionIndex / (questions.size() - 1)) * 100));
 
@@ -70,13 +70,14 @@ public class Survey2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey2);
-
-        questionContainer = findViewById(R.id.questionContainer);
+        
         answerEditText = findViewById(R.id.answerEditText);
         questionTextView = findViewById(R.id.question_text_view);
         progressBar = findViewById(R.id.progress_bar);
         Button previousButton = findViewById(R.id.previousButton);
         Button nextButton = findViewById(R.id.nextButton);
+
+        answerEditText.requestFocus();
 
         databaseHelper = new DatabaseHelper(this, DatabaseHelper.TABLE_SURVEY2_QUESTIONS);
         questions = databaseHelper.getAllQuestions();
