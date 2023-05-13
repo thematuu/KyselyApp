@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorItemSelected2">#FF4081</color> <!-- Your selected color -->
+    <color name="colorItemDefault2">#FFFFFF</color> <!-- Default color -->
+    <color name="selectedTextColor">#FFFFFFFF</color> <!-- Your selected color -->
+    <color name="defaultTextColor">#FF000000</color> <!-- Default color -->
 </resources>

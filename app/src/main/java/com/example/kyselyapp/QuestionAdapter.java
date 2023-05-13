@@ -1,13 +1,12 @@
 package com.example.kyselyapp;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +15,12 @@ import java.util.List;
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
 
     private List<Question> questions;
+    private int selectedPosition = -1;
 
     public QuestionAdapter(List<Question> questions) {
         this.questions = questions;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -27,9 +28,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    private int selectedPosition = -1; // Add this variable to store the selected position
-
-    // Add this method to get the selected position
     public int getSelectedPosition() {
         return selectedPosition;
     }
@@ -39,20 +37,25 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         holder.questionTextView.setText(questions.get(position).getText());
 
         if (selectedPosition == position) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorItemSelected));
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorItemSelected2));
+            holder.questionTextView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.selectedTextColor));
         } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorItemDefault2));
+            holder.questionTextView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.defaultTextColor));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedPosition = holder.getAdapterPosition();
+                if (selectedPosition == holder.getAdapterPosition()) {
+                    selectedPosition = -1;
+                } else {
+                    selectedPosition = holder.getAdapterPosition();
+                }
                 notifyDataSetChanged();
             }
         });
     }
-
 
 
     @Override
@@ -68,13 +71,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView questionTextView;
-
+        public CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             questionTextView = itemView.findViewById(R.id.questionTextView);
-
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }

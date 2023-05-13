@@ -21,14 +21,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameTextInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        style="@style/AppTheme.TextInputLayout"
         android:hint="Username"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="#DE3789"
-        app:hintTextColor="#DE3789"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adminLoginTitle">
@@ -43,14 +37,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        style="@style/AppTheme.TextInputLayout"
         android:hint="Password"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="#DE3789"
-        app:hintTextColor="#DE3789"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTextInputLayout">
@@ -62,6 +50,7 @@
             android:ems="10"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
