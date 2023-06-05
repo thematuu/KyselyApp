@@ -43,15 +43,15 @@ public class EditQuestionActivity extends AppCompatActivity {
                 if (!updatedQuestion.isEmpty() && questionId != -1) {
                     if (!originalQuestion.trim().equals(updatedQuestion)) {
                         databaseHelper.updateQuestion(questionId, updatedQuestion);
-                        Toast.makeText(EditQuestionActivity.this, "Question updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditQuestionActivity.this, R.string.question_updated_successfully, Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        Toast.makeText(EditQuestionActivity.this, "The question has not changed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditQuestionActivity.this, R.string.the_question_has_not_changed, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.d("EditQuestion", "Issue detected");
-                    Toast.makeText(EditQuestionActivity.this, "Please enter a question", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditQuestionActivity.this, R.string.please_enter_a_question, Toast.LENGTH_SHORT).show();
                 }
             }
         });

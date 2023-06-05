@@ -14,7 +14,7 @@
         android:textColor="#DE3789"
         android:textSize="24dp"
         android:textStyle="bold"
-        android:text="Survey1"
+        android:text="@string/survey1"
         android:gravity="center"
          />
 
@@ -35,17 +35,17 @@
         <Button
             android:id="@+id/addQuestionButton"
             style="@style/AppTheme.Button1"
-            android:text="Add" />
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/editQuestionButton"
             style="@style/AppTheme.Button1"
-            android:text="Edit" />
+            android:text="@string/edit" />
 
         <Button
             android:id="@+id/deleteQuestionButton"
             style="@style/AppTheme.Button1"
-            android:text="Delete" />
+            android:text="@string/delete" />
 
     </LinearLayout>
 
@@ -59,17 +59,17 @@
         <Button
             android:id="@+id/exportButton"
             style="@style/AppTheme.Button2"
-            android:text="Export" />
+            android:text="@string/export" />
 
         <Button
             android:id="@+id/showAnswersButton"
             style="@style/AppTheme.Button2"
-            android:text="Show Answers" />
+            android:text="@string/show_answers" />
 
         <Button
             android:id="@+id/delete_survey1_answers_button"
             style="@style/AppTheme.Button2"
-            android:text="Delete All Answers for Survey1" />
+            android:text="@string/delete_all_answers_for_survey1" />
 
     </LinearLayout>
 

@@ -38,9 +38,9 @@ public class Survey2Activity extends AppCompatActivity {
         Button previousButton = findViewById(R.id.previousButton);
 
         if (currentQuestionIndex == questions.size() - 1) {
-            nextButton.setText("Submit");
+            nextButton.setText(R.string.submit);
         } else {
-            nextButton.setText("Next");
+            nextButton.setText(R.string.next);
         }
         if (currentQuestionIndex == 0) {
             previousButton.setVisibility(View.GONE);
@@ -56,9 +56,9 @@ public class Survey2Activity extends AppCompatActivity {
         Button previousButton = findViewById(R.id.previousButton);
 
         if (currentQuestionIndex == questions.size() - 1) {
-            nextButton.setText("Submit");
+            nextButton.setText(R.string.submit);
         } else {
-            nextButton.setText("Next");
+            nextButton.setText(R.string.next);
         }
         if (currentQuestionIndex == 0) {
             previousButton.setVisibility(View.GONE);
@@ -103,7 +103,7 @@ public class Survey2Activity extends AppCompatActivity {
                 String currentAnswer = answerEditText.getText().toString();
 
                 if (currentAnswer.trim().isEmpty()) {
-                    Toast.makeText(Survey2Activity.this, "Answer cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Survey2Activity.this, R.string.answer_cannot_be_empty, Toast.LENGTH_SHORT).show();
                 } else {
                     answers.set(currentQuestionIndex, currentAnswer);
 

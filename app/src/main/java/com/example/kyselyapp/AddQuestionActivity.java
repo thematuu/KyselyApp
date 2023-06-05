@@ -35,11 +35,11 @@ public class AddQuestionActivity extends AppCompatActivity {
 
                 if (!questionText.isEmpty()) {
                     databaseHelper.addQuestion(questionText);
-                    Toast.makeText(AddQuestionActivity.this, "Question added successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuestionActivity.this, R.string.question_added_successfully, Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK); // Set the result to RESULT_OK
                     finish();
                 } else {
-                    Toast.makeText(AddQuestionActivity.this, "Please enter a question", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddQuestionActivity.this, R.string.please_enter_a_question, Toast.LENGTH_SHORT).show();
                 }
             }
         });

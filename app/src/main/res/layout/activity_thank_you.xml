@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thank you for answering!"
+        android:text="@string/thank_you_for_answering"
         android:textSize="24sp" />
 
     <Button
@@ -19,6 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="OK" />
+        android:text="@string/ok" />
 
 </LinearLayout>

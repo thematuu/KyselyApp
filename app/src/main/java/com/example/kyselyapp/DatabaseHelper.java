@@ -69,12 +69,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Insert example questions for survey 1 and survey 2
         String[] survey1ExampleQuestions = {
-                "What is your favorite color?",
-                "Do you prefer cats or dogs?"
+                "Tämä on esimerkki kysymys?",
+                "Tämä on esimerkki kysymys2?",
+                "Tämä on esimerkki kysymys3?"
         };
         String[] survey2ExampleQuestions = {
-                "What is your favorite movie genre?",
-                "Do you prefer tea or coffee?"
+                "Tämä on esimerkki kysymys?",
+                "Tämä on esimerkki kysymys2?",
+                "Tämä on esimerkki kysymys3?"
         };
         insertExampleQuestions(db, TABLE_SURVEY1_QUESTIONS, survey1ExampleQuestions);
         insertExampleQuestions(db, TABLE_SURVEY2_QUESTIONS, survey2ExampleQuestions);

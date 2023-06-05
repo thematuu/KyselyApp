@@ -42,7 +42,8 @@ public class ShowAnswersActivity extends AppCompatActivity {
     // Add createBarChart() method to create a bar chart
     private BarChart createBarChart(Map<String, Integer> answerCounts) {
         BarChart barChart = new BarChart(this);
-
+        barChart.setHighlightPerTapEnabled(false);
+        barChart.setHighlightPerDragEnabled(false);
         List<BarEntry> entries = new ArrayList<>();
         List<String> answerOptions = new ArrayList<>();
         answerOptions.add("☹️");
@@ -193,7 +194,7 @@ public class ShowAnswersActivity extends AppCompatActivity {
             } else {
                 // Create a TextView to display "No answers" message
                 TextView noAnswersTextView = new TextView(this);
-                noAnswersTextView.setText("No answers for \"" + question + "\"");
+                noAnswersTextView.setText(getString(R.string.no_answers_for) + question + "\"");
                 noAnswersTextView.setTextSize(16);
                 noAnswersTextView.setPadding(0, 20, 0, 20);
 
@@ -239,11 +240,11 @@ public class ShowAnswersActivity extends AppCompatActivity {
 
     private int[] getCustomColors() {
         return new int[]{
-                Color.rgb(255, 64,129), // Pink
-                Color.rgb(255, 152, 0), // Orange
-                Color.rgb(96, 125, 139), // Blue Grey
-                Color.rgb(0, 188, 212), // Cyan
-                Color.rgb(139, 195, 74) // Light Green
+                Color.rgb(202, 0,0), // Dark red
+                Color.rgb(255, 69, 0), // light red
+                Color.rgb(255, 195, 0), // Yellow
+                Color.rgb(50, 205, 50), // Light green
+                Color.rgb(0, 128, 0) // Bright Green
         };
     }
 }

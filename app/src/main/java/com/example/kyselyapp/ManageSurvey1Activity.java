@@ -77,7 +77,7 @@ public class ManageSurvey1Activity extends AppCompatActivity {
                     intent.putExtra("questionsTableName", DatabaseHelper.TABLE_SURVEY1_QUESTIONS);
                     startActivityForResult(intent, 2);
                 } else {
-                    Toast.makeText(ManageSurvey1Activity.this, "Please select a question to edit", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManageSurvey1Activity.this, R.string.please_select_a_question_to_edit, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -91,16 +91,16 @@ public class ManageSurvey1Activity extends AppCompatActivity {
                 int selectedPosition = questionAdapter.getSelectedPosition();
                 if (selectedPosition != -1) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ManageSurvey1Activity.this);
-                    builder.setTitle("Delete Question")
-                            .setMessage("Are you sure you want to delete this question and its answers?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setTitle(R.string.delete_question)
+                            .setMessage(R.string.are_you_sure_you_want_to_delete_this_question_and_its_answers)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     databaseHelper.deleteQuestion(questions.get(selectedPosition).getText());
                                     questions.remove(selectedPosition);
                                     questionAdapter.notifyItemRemoved(selectedPosition);
                                 }
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.dismiss();
                                 }
@@ -108,7 +108,7 @@ public class ManageSurvey1Activity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else {
-                    Toast.makeText(ManageSurvey1Activity.this, "Please select a question to delete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManageSurvey1Activity.this, R.string.please_select_a_question_to_delete, Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -137,16 +137,16 @@ public class ManageSurvey1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageSurvey1Activity.this);
-                builder.setTitle("Delete All Answers")
-                        .setMessage("Are you sure you want to delete all answers for this survey?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.delete_all_answers)
+                        .setMessage(R.string.are_you_sure_you_want_to_delete_all_answers_for_this_survey)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 DatabaseHelper databaseHelper = new DatabaseHelper(ManageSurvey1Activity.this, DatabaseHelper.TABLE_SURVEY1_QUESTIONS);
                                 databaseHelper.deleteAllAnswers(DatabaseHelper.TABLE_SURVEY1_ANSWERS);
                                 // Refresh the activity if needed
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.dismiss();
                             }
@@ -201,12 +201,12 @@ public class ManageSurvey1Activity extends AppCompatActivity {
 
                 fileWriter.close();
                 cursor.close();
-                Toast.makeText(this, "Answers exported to " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.answers_exported_to) + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
-                Toast.makeText(this, "Error exporting answers: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_exporting_answers) + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "No answers to export", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_answers_to_export, Toast.LENGTH_SHORT).show();
         }
     }
 

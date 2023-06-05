@@ -17,13 +17,13 @@
             android:id="@+id/chart_type_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bar chart" />
+            android:text="@string/bar_chart" />
 
         <Switch
             android:id="@+id/absolute_value_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show absolute values" />
+            android:text="@string/show_absolute_values" />
 
 
 

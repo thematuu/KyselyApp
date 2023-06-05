@@ -1,5 +1,7 @@
 package com.example.kyselyapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -57,19 +59,55 @@ public class AdminActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String newUsername = changeUsernameEditText.getText().toString();
                 String newPassword = changePasswordEditText.getText().toString();
+                EditText retypePasswordEditText = findViewById(R.id.retypePasswordEditText);
+                String retypedPassword = retypePasswordEditText.getText().toString();
 
                 if (!newUsername.isEmpty() && !newPassword.isEmpty()) {
-                    DatabaseHelper dbHelper = new DatabaseHelper(AdminActivity.this, null);
-                    dbHelper.updateAdminCredentials(newUsername, newPassword);
-                    Toast.makeText(AdminActivity.this, "Credentials updated", Toast.LENGTH_SHORT).show();
+                    if (newPassword.equals(retypedPassword)) {
+                        new AlertDialog.Builder(AdminActivity.this)
+                                .setTitle(R.string.confirmation)
+                                .setMessage(R.string.Are_you_sure_you_want_to_change_the_credentials)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DatabaseHelper dbHelper = new DatabaseHelper(AdminActivity.this, null);
+                                        dbHelper.updateAdminCredentials(newUsername, newPassword);
 
-                    // Clear the input fields after updating the credentials
-                    changeUsernameEditText.setText("");
-                    changePasswordEditText.setText("");
+                                        new AlertDialog.Builder(AdminActivity.this)
+                                                .setTitle(R.string.success)
+                                                .setMessage(R.string.credentials_updated)
+                                                .setPositiveButton(android.R.string.ok, null)
+                                                .setIcon(android.R.drawable.ic_dialog_info)
+                                                .show();
+
+                                        // Clear the input fields after updating the credentials
+                                        changeUsernameEditText.setText("");
+                                        changePasswordEditText.setText("");
+                                        retypePasswordEditText.setText("");
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    } else {
+                        new AlertDialog.Builder(AdminActivity.this)
+                                .setTitle(R.string.error)
+                                .setMessage(R.string.passwords_do_not_match)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
                 } else {
-                    Toast.makeText(AdminActivity.this, "Both fields must be filled", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(AdminActivity.this)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.all_fields_must_be_filled)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             }
         });
+
+
+
     }
 }

@@ -48,7 +48,7 @@ public class Survey1Activity extends AppCompatActivity {
             answers = new String[questions.size()];
             progressBar.setMax(questions.size() - 1);
         } else {
-            Toast.makeText(this, "Error loading questions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_loading_questions, Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -92,7 +92,7 @@ public class Survey1Activity extends AppCompatActivity {
                 int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
                 if (checkedRadioButtonId == -1) {
                     // No answer selected
-                    Toast.makeText(Survey1Activity.this, "Answer cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Survey1Activity.this, R.string.answer_cannot_be_empty, Toast.LENGTH_SHORT).show();
                 } else {
                     // Save the answer for the current question to the answers array
                     RadioButton checkedRadioButton = findViewById(checkedRadioButtonId);
@@ -142,9 +142,9 @@ public class Survey1Activity extends AppCompatActivity {
         }
 
         if (currentQuestionIndex == questions.size() - 1) {
-            nextButton.setText("Submit");
+            nextButton.setText(R.string.submit);
         } else {
-            nextButton.setText("Next");
+            nextButton.setText(R.string.next);
         }
 
         progressBar.setProgress(currentQuestionIndex);

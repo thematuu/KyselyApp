@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Admin Login"
+        android:text="@string/admin_login"
         android:textColor="#DE3789"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -22,7 +22,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameTextInputLayout"
         style="@style/AppTheme.TextInputLayout"
-        android:hint="Username"
+        android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adminLoginTitle">
@@ -38,7 +38,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextInputLayout"
         style="@style/AppTheme.TextInputLayout"
-        android:hint="Password"
+        android:hint="@string/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTextInputLayout">
@@ -56,7 +56,7 @@
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/white"
         app:backgroundTint="#DE3789"
         app:cornerRadius="24dp"

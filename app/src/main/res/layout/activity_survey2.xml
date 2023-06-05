@@ -32,8 +32,8 @@
             android:layout_marginBottom="32dp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="Kysymys"
-            android:textSize="24dp"
+            android:text="@string/place_holder_question"
+            android:textSize="32dp"
             android:focusable="true"
             android:accessibilityLiveRegion="polite" />
 
@@ -42,7 +42,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Write your answer here"
+            android:hint="@string/write_your_answer_here"
+            android:textSize="24dp"
             app:boxBackgroundColor="@color/white"
             app:hintTextColor="#DE3789"
             app:boxStrokeColor="#DE3789">
@@ -52,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="124dp"
-                android:textSize="16dp"
+                android:textSize="24dp"
                 android:gravity="top" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -68,7 +69,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Previous"
+                android:text="@string/previous"
+                android:textSize="24dp"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#DE3789"/>
 
@@ -77,7 +79,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Next"
+                android:text="@string/next"
+                android:textSize="24dp"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#DE3789"/>
 
