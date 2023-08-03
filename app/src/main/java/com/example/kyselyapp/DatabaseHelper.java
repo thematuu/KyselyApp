@@ -1,11 +1,24 @@
 package com.example.kyselyapp;
 
+import static android.provider.Settings.System.getString;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -265,6 +278,116 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+
+
+    public void exportAllDataToCSV(Context context) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] tableNames = new String[]{TABLE_SURVEY1_QUESTIONS, TABLE_SURVEY2_QUESTIONS, TABLE_SURVEY1_ANSWERS, TABLE_SURVEY2_ANSWERS};
+
+        try {
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            int fileNumber = 0;
+            File csvFile;
+            do {
+                csvFile = new File(downloadsDir, "database_export" + (fileNumber > 0 ? "(" + fileNumber + ")" : "") + ".csv");
+                fileNumber++;
+            } while (csvFile.exists());
+            FileWriter fileWriter = new FileWriter(csvFile);
+
+            for (String tableName : tableNames) {
+                Cursor cursor = db.query(tableName, null, null, null, null, null, null);
+
+                // write table name
+                fileWriter.append(tableName);
+                fileWriter.append("\n");
+
+                // write column names
+                String[] columnNames = cursor.getColumnNames();
+                for (int i = 0; i < columnNames.length; i++) {
+                    fileWriter.append(columnNames[i]);
+                    if(i < columnNames.length - 1){
+                        fileWriter.append(",");
+                    }
+                }
+                fileWriter.append("\n");
+
+                // write rows
+                while (cursor.moveToNext()) {
+                    int numColumns = cursor.getColumnCount();
+                    for (int i = 0; i < numColumns; i++) {
+                        fileWriter.append(cursor.getString(i));
+                        if(i < numColumns - 1){
+                            fileWriter.append(",");
+                        }
+                    }
+                    fileWriter.append("\n");
+                }
+                cursor.close();
+            }
+            fileWriter.flush();
+            fileWriter.close();
+            Toast.makeText(context, context.getString(R.string.backup_data_saved) + csvFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, context.getString(R.string.backup_data_save_failed), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+    public void importAllDataFromCSV(Context context, Uri csvFileUri) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if (csvFileUri == null) {
+            Log.d("Import", "No file selected");
+            Toast.makeText(context, context.getString(R.string.no_file_selected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(csvFileUri);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            db.beginTransaction();
+
+            String tableName = "";
+            String[] columnNames = null;
+            while ((line = buffer.readLine()) != null) {
+                // If line has one field, it's a table name
+                if (line.split(",", -1).length == 1) {
+                    tableName = line;
+                    // Delete all rows from the current table before importing new data
+                    db.delete(tableName, null, null);
+                    // The next line will be column names
+                    if((line = buffer.readLine()) != null) {
+                        columnNames = line.split(",", -1);
+                    }
+                } else {
+                    // If line has more than one field, it's data row
+                    String[] str = line.split(",", -1);
+                    ContentValues contentValues = new ContentValues();
+
+                    for (int i = 0; i < str.length; i++) {
+                        contentValues.put(columnNames[i], str[i]);
+                    }
+
+                    db.insert(tableName, null, contentValues);
+                }
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
+            buffer.close();
+            Toast.makeText(context, context.getString(R.string.data_imported_successfully), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, context.getString(R.string.data_import_failed), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 
 

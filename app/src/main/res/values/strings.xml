@@ -65,4 +65,11 @@
     <string name="answer_cannot_be_empty">Vastaus ei voi olla tyhjä</string>
     <string name="no_answers_for">Ei vastauksia kohteelle \"</string>
     <string name="submit">Lähetä</string>
+    <string name="backup_data">Varmuuskopio</string>
+    <string name="restore_from_backup">Palauta varmuuskopiosta</string>
+    <string name="backup_data_saved">Varmuuskopio tallennettu: </string>
+    <string name="backup_data_save_failed">Varmuuskopionti epäonnistui: </string>
+    <string name="no_file_selected">Tiedostoa ei ole valittu</string>
+    <string name="data_imported_successfully">Varmuuskopio palautettu onnistuneesti</string>
+    <string name="data_import_failed">Varmuuskopion palautettus epäonnistui</string>
 </resources>

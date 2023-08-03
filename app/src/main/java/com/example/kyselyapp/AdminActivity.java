@@ -9,11 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminActivity extends AppCompatActivity {
-
+    private static final int PICK_CSV_FILE_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,8 @@ public class AdminActivity extends AppCompatActivity {
         EditText changeUsernameEditText = findViewById(R.id.changeUsernameEditText);
         EditText changePasswordEditText = findViewById(R.id.changePasswordEditText);
         Button changeCredentialsButton = findViewById(R.id.changeCredentialsButton);
+        Button exportButton = findViewById(R.id.exportButton);
+        Button importButton = findViewById(R.id.importButton);
 
         // Set the password field to hidden
         changePasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -44,6 +47,30 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Export the data
+                DatabaseHelper dbHelper = new DatabaseHelper(AdminActivity.this, null);
+                dbHelper.exportAllDataToCSV(AdminActivity.this);
+            }
+        });
+
+
+        importButton.setOnClickListener(v -> {
+            // Create an intent to let the user pick a CSV file
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");  // to select all types of files
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] {"text/csv", "text/comma-separated-values"});
+
+            // Start the file picker activity
+            startActivityForResult(Intent.createChooser(intent, "Select CSV File"), PICK_CSV_FILE_REQUEST_CODE);
+        });
+
+
+
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +133,18 @@ public class AdminActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == PICK_CSV_FILE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Uri selectedFileUri = data.getData();
 
+            // Import the data
+            DatabaseHelper dbHelper = new DatabaseHelper(this, "survey_app.db");
+            dbHelper.importAllDataFromCSV(this, selectedFileUri);
 
+        }
     }
 }
