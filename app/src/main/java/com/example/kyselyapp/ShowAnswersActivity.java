@@ -28,6 +28,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.util.Log;
@@ -52,10 +53,15 @@ public class ShowAnswersActivity extends AppCompatActivity {
         answerOptions.add("😊");
         answerOptions.add("😁");
 
-        int index = 0;
-        for (Map.Entry<String, Integer> entry : answerCounts.entrySet()) {
-            entries.add(new BarEntry(index, entry.getValue()));
-            index++;
+        for (int i = 0; i < answerOptions.size(); i++) {
+            String option = answerOptions.get(i);
+            if (answerCounts.containsKey(option)) {
+                // Map the answer count to the correct index based on the answer option.
+                entries.add(new BarEntry(i, answerCounts.get(option)));
+            } else {
+                // If an answer option does not have a count, add it with a count of 0.
+                entries.add(new BarEntry(i, 0));
+            }
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "");
@@ -113,14 +119,29 @@ public class ShowAnswersActivity extends AppCompatActivity {
         answerOptions.add("😊");
         answerOptions.add("😁");
 
-        int index = 0;
-        for (Map.Entry<String, Integer> entry : answerCounts.entrySet()) {
-            entries.add(new PieEntry(entry.getValue(), answerOptions.get(index)));
-            index++;
+        // Define a list to hold the colors for the dataset based on the entries added
+        List<Integer> colors = new ArrayList<>();
+
+        // Get your custom colors array
+        int[] customColors = getCustomColors();
+
+        // Map each answer option to its specific color
+        Map<String, Integer> optionToColorMap = new HashMap<>();
+        for (int i = 0; i < answerOptions.size(); i++) {
+            optionToColorMap.put(answerOptions.get(i), customColors[i]);
+        }
+
+        // Iterate over the answerOptions list to maintain the correct order
+        for (String option : answerOptions) {
+            if (answerCounts.containsKey(option)) {
+                entries.add(new PieEntry(answerCounts.get(option), option));
+                // Add the specific color for this option to the colors list
+                colors.add(optionToColorMap.get(option));
+            }
         }
 
         PieDataSet pieDataSet = new PieDataSet(entries, "");
-        pieDataSet.setColors(getCustomColors());
+        pieDataSet.setColors(colors); // Set the colors for the dataset based on the entries
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(24f);
 
@@ -169,7 +190,6 @@ public class ShowAnswersActivity extends AppCompatActivity {
         for (Question question : questions) {
             int questionId = databaseHelper.getQuestionId(question.getText());
             Map<String, Integer> answerCounts = databaseHelper.getAnswerCounts(DatabaseHelper.TABLE_SURVEY1_ANSWERS, questionId);
-            Log.d("PieChartDebug", "Question ID: " + questionId);
             if (!answerCounts.isEmpty()) {
                 // Inflate the pie_chart_layout
                 LayoutInflater inflater = LayoutInflater.from(this);
